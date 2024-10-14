@@ -12,8 +12,6 @@ import java.util.Objects;
 @Getter
 @Setter
 
-
-
 public class Assento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +25,6 @@ public class Assento {
     @OneToOne(mappedBy = "assento")
 
     private Cliente cliente;
-
-
 
     public Cliente getCliente(){
         return cliente;

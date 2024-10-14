@@ -35,6 +35,5 @@ public class TestConfig implements CommandLineRunner {
         assentoRepo.saveAll(Arrays.asList(a,b,c,d));
 
 
-
     }
 }

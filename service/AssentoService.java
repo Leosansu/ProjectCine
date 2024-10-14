@@ -14,9 +14,6 @@ public class AssentoService {
     @Autowired
     AssentoRepo assentoRepo;
 
-    //obter lista de tdos Assento e lista de assentos por id
-    //camada de baixo repository
-    //camada de cima controllers/resource
 
     public List<Assento>findAll(){
        return assentoRepo.findAll();

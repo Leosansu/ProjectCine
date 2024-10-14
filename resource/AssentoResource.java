@@ -15,8 +15,7 @@ import java.util.List;
 @RequestMapping(value = "/assentos")
 public class AssentoResource {
 
-    //obter uma lista de assentos
-    //a camada de baixo é service é a de cima é a iteração com HTTP
+
 
     @Autowired
     AssentoService assentoService;
