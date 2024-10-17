@@ -3,46 +3,40 @@ package com.example.demo.Entity;
 import com.example.demo.Entity.Enum.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-
 public class Assento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "Assento", nullable = false, unique = true, length = 2)
+    @Column(name = "Assento", nullable = false, length = 2)
     private String nome;
 
     private Integer status;
 
     @JsonIgnore
     @OneToOne(mappedBy = "assento")
-
-    private Cliente cliente;
-
-    public Cliente getCliente(){
-        return cliente;
-
-    }
+    private Cliente cliente ;
 
     public Assento() {
-    }
-
-    public Assento(String nome, Status status, Cliente cliente) {
-        this.nome = nome;
-        setStatus(status);
-        this.cliente = cliente;
     }
 
     public Assento(String nome, Status status) {
         this.nome = nome;
         setStatus(status);
+    }
+    public Assento(String nome , Cliente cliente){
+        this.nome = nome;
+        this.cliente = cliente;
+    }
+
+    public Assento(Long id, String nome, Status status ) {
+        this.id = id;
+        this.nome = nome;
+        setStatus(status);
+
     }
 
     public Assento(Long id, String nome, Status status, Cliente cliente) {
@@ -51,6 +45,24 @@ public class Assento {
         setStatus(status);
         this.cliente = cliente;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+
 
     public Status getStatus() {
         return Status.valueOff(status);
@@ -61,6 +73,14 @@ public class Assento {
             this.status = status.getCode();
         }
 
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @Override

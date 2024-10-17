@@ -1,21 +1,10 @@
 package com.example.demo.Entity;
-
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-import lombok.Setter;
-
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-
-@AllArgsConstructor
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,17 +13,45 @@ public class Cliente {
     @Column(nullable = false,length = (35))
     private String nome;
 
-
-
-    @OneToOne
-    @JoinColumn(name = "assento_id")
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "assento_id",unique = true)
     private Assento assento;
 
     public Cliente() {
     }
 
+
+    public Cliente(Long id, String nome) {
+        this.id = id;
+        this.nome = nome;
+
+    }
+
     public Cliente(String nome) {
+        this.nome = nome;
+    }
+
+    public Assento getAssento() {
+        return assento;
+    }
+
+    public void setAssento(Assento assento) {
+        this.assento = assento;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -49,4 +66,6 @@ public class Cliente {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }

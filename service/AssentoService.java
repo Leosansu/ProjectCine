@@ -19,6 +19,7 @@ public class AssentoService {
        return assentoRepo.findAll();
     }
     public Assento findByid(Long id){
+
         Optional<Assento> obj = assentoRepo.findById(id);
         return obj.get();
     }
