@@ -27,5 +27,11 @@ public class AssentoService {
     public Assento insert(Assento obj){
         return assentoRepo.save(obj);
     }
+    public void delete(Long id){
+        assentoRepo.deleteById(id);
+
+    }
+
+
 
 }

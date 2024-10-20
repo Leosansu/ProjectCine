@@ -31,15 +31,20 @@ public class AssentoResource {
         return ResponseEntity.ok().body(obj);
     }
     @PostMapping
-    public ResponseEntity <Assento> insert(@RequestBody Assento obj){
+    public ResponseEntity <Assento> insert (@RequestBody Assento obj){
         obj = assentoService.insert(obj);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(obj.getId())
                 .toUri();
-
         return ResponseEntity.created(uri).body(obj);
+
+    }
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        assentoService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 
