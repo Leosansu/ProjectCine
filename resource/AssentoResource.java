@@ -2,13 +2,13 @@ package com.example.demo.resource;
 
 import com.example.demo.Entity.Assento;
 import com.example.demo.service.AssentoService;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -30,5 +30,17 @@ public class AssentoResource {
         Assento obj = assentoService.findByid(id);
         return ResponseEntity.ok().body(obj);
     }
+    @PostMapping
+    public ResponseEntity <Assento> insert(@RequestBody Assento obj){
+        obj = assentoService.insert(obj);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(obj.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(obj);
+    }
+
 
 }

@@ -46,13 +46,6 @@ public class TestConfig implements CommandLineRunner {
 
         clienteRepo.saveAll(Arrays.asList(c1,c2,c3));
 
-
-        // Associando o assento 'a' ao primeiro cliente
-//        b.setCliente(clientes.get(1));  // Associando o assento 'b' ao segundo cliente
-//        c.setCliente(clientes.get(2));  // Associando o assento 'c' ao terceiro cliente
-//        d.setCliente(null);             // Assento livre não tem cliente associado
-
-
     }
 }
 
