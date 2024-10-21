@@ -46,6 +46,13 @@ public class AssentoResource {
         assentoService.delete(id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Assento> update (@PathVariable Long id,@RequestBody Assento obj){
+        obj = assentoService.upDate(id,obj);
+        return ResponseEntity.ok().body(obj);
+
+    }
+    
 
 
 }

@@ -31,7 +31,15 @@ public class AssentoService {
         assentoRepo.deleteById(id);
 
     }
+    public Assento upDate (Long id , Assento obj){
+        Assento assentoEnti = assentoRepo.getReferenceById(id);
+        updateData(assentoEnti,obj);
+        return assentoRepo.save(assentoEnti);
+    }
 
-
+    private void updateData(Assento assentoEnti, Assento obj) {
+        assentoEnti.setNome(obj.getNome());
+        assentoEnti.setStatus(obj.getStatus());
+    }
 
 }

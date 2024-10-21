@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.Entity.Assento;
 import com.example.demo.Entity.Cliente;
 import com.example.demo.Repository.ClienteRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,16 @@ public class ClienteService {
         clienteRepo.deleteById(id);
 
     }
+    public Cliente upDate(Long id , Cliente obj){
+        Cliente clienteEnti = clienteRepo.getReferenceById(id);
+        updateDate(clienteEnti,obj);
+        return clienteRepo.save(clienteEnti);
+    }
 
+    private void updateDate(Cliente clienteEnti, Cliente obj) {
+        clienteEnti.setNome(obj.getNome());
+        clienteEnti.setAssento(obj.getAssento());
+    }
 
 
 

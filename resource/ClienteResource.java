@@ -44,6 +44,12 @@ public class ClienteResource {
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Cliente> update (@PathVariable Long id,@RequestBody Cliente obj){
+        obj = clienteService.upDate(id,obj);
+        return ResponseEntity.ok().body(obj);
+
+    }
 
 
 }
