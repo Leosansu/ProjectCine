@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.Entity.Assento;
 import com.example.demo.Entity.Cliente;
 import com.example.demo.Repository.AssentoRepo;
+import com.example.demo.service.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class AssentoService {
 
     public Assento findByid(Long id) {
         return assentoRepo.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("Assento não encontrado" + id) );
+                new ResourceNotFoundException(id));
     }
     public Assento insert(Assento obj){
         return assentoRepo.save(obj);
