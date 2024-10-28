@@ -5,14 +5,14 @@ import com.example.demo.Entity.Cliente;
 import com.example.demo.Entity.Enum.Status;
 import com.example.demo.Repository.AssentoRepo;
 import com.example.demo.Repository.ClienteRepo;
-import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
-import java.util.List;
+
 
 @Configuration
 @Profile("test")

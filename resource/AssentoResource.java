@@ -43,6 +43,10 @@ public class AssentoResource {
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
+        Assento obj = assentoService.findByid(id);
+        if(obj == null){
+            return ResponseEntity.notFound().build();
+        }
         assentoService.delete(id);
         return ResponseEntity.noContent().build();
     }

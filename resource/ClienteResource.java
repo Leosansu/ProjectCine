@@ -41,6 +41,11 @@ public class ClienteResource {
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
+
+        Cliente obj = clienteService.findByid(id);
+        if(obj == null){
+            return ResponseEntity.notFound().build();
+        }
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }

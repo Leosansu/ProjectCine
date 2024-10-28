@@ -23,7 +23,7 @@ public class AssentoService {
 
     public Assento findByid(Long id) {
         return assentoRepo.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException(id));
+                new ResourceNotFoundException(id+" não encontrado"));
     }
     public Assento insert(Assento obj){
         return assentoRepo.save(obj);
