@@ -13,7 +13,7 @@ public class Cliente {
     @Column(nullable = false,length = (35))
     private String nome;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "assento_id",unique = true)
     private Assento assento;
 
@@ -54,6 +54,7 @@ public class Cliente {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
 
     @Override
     public boolean equals(Object o) {
