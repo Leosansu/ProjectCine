@@ -40,7 +40,7 @@ public class ClienteService {
     public void deletarCliente(Long id) {
         // Obter o cliente pelo ID
         Cliente cliente = clienteRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException(id));
 
         Assento assento = cliente.getAssento(); // Obter o assento do cliente
 
@@ -62,9 +62,5 @@ public class ClienteService {
         clienteEnti.setNome(obj.getNome());
         clienteEnti.setAssento(obj.getAssento());
     }
-
-
-
-
 
 }
