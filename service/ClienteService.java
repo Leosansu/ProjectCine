@@ -6,6 +6,7 @@ import com.example.demo.Entity.Enum.Status;
 import com.example.demo.Repository.AssentoRepo;
 import com.example.demo.Repository.ClienteRepo;
 import com.example.demo.service.exceptions.ResourceNotFoundException;
+import com.example.demo.service.exceptions.SeatOccupiedException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,6 @@ public class ClienteService {
     }
     public Cliente insert(Cliente obj){
         return clienteRepo.save(obj);
-
     }
 
     @Transactional
@@ -48,7 +48,6 @@ public class ClienteService {
             assento.setStatus(Status.Livre); // Altera o status do assento
             assentoRepo.save(assento); // Atualiza o assento no banco
         }
-
         clienteRepo.delete(cliente); // Deleta o cliente
     }
 
@@ -62,5 +61,19 @@ public class ClienteService {
         clienteEnti.setNome(obj.getNome());
         clienteEnti.setAssento(obj.getAssento());
     }
+    public Cliente reservaAssento(Long clienteId,Long assentoId){
+        Cliente cliente = clienteRepo.findById(clienteId).orElseThrow(()->new ResourceNotFoundException("Cliente não encontrado com id: "+clienteId));
+        Assento assento = assentoRepo.findById(assentoId).orElseThrow(()-> new ResourceNotFoundException("Assento não encontrado com id:"+assentoId));
 
+        if(assento.getStatus() == Status.Livre ){
+            assento.setStatus(Status.Ocupado);
+            assentoRepo.save(assento);
+            cliente.setAssento(assento);
+            clienteRepo.save(cliente);
+
+        }else {
+            throw new SeatOccupiedException("Assento com id: "+assentoId+ ", está ocupado.");
+
+        }return cliente;
+    }
 }

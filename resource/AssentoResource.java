@@ -15,8 +15,6 @@ import java.util.List;
 @RequestMapping(value = "/assentos")
 public class AssentoResource {
 
-
-
     @Autowired
     AssentoService assentoService;
 
@@ -56,7 +54,6 @@ public class AssentoResource {
         return ResponseEntity.ok().body(obj);
 
     }
-    
 
 
 }
