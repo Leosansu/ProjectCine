@@ -14,7 +14,8 @@ public class Assento {
     @Column(name = "Assento", nullable = false, length = 2)
     private String nome;
 
-    private Integer status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @JsonIgnore
     @OneToOne(mappedBy = "assento")
@@ -63,14 +64,13 @@ public class Assento {
     }
 
 
-
     public Status getStatus() {
-        return Status.valueOff(status);
+        return status;
     }
 
     public void setStatus(Status status) {
         if (status != null) {
-            this.status = status.getCode();
+            this.status = status;
         }
 
     }

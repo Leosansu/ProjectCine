@@ -37,7 +37,6 @@ public class AssentoResource {
                 .buildAndExpand(obj.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(obj);
-
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
@@ -54,6 +53,5 @@ public class AssentoResource {
         return ResponseEntity.ok().body(obj);
 
     }
-
 
 }

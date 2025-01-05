@@ -45,16 +45,21 @@ public class ClienteService {
         Assento assento = cliente.getAssento(); // Obter o assento do cliente
 
         if (assento != null) {
-            assento.setStatus(Status.Livre); // Altera o status do assento
+            assento.setStatus(Status.valueOfIgnoreCase("Livre")); // Altera o status do assento
             assentoRepo.save(assento); // Atualiza o assento no banco
         }
         clienteRepo.delete(cliente); // Deleta o cliente
     }
 
     public Cliente upDate(Long id , Cliente obj){
-        Cliente clienteEnti = clienteRepo.getReferenceById(id);
-        updateDate(clienteEnti,obj);
-        return clienteRepo.save(clienteEnti);
+        try{
+            Cliente clienteEnti = clienteRepo.getReferenceById(id);
+            updateDate(clienteEnti,obj);
+            return clienteRepo.save(clienteEnti);
+
+        }catch (EntityNotFoundException e){
+            throw new ResourceNotFoundException("Clente com id: "+id+", não foi econtrado");
+        }
     }
 
     private void updateDate(Cliente clienteEnti, Cliente obj) {
@@ -65,8 +70,8 @@ public class ClienteService {
         Cliente cliente = clienteRepo.findById(clienteId).orElseThrow(()->new ResourceNotFoundException("Cliente não encontrado com id: "+clienteId));
         Assento assento = assentoRepo.findById(assentoId).orElseThrow(()-> new ResourceNotFoundException("Assento não encontrado com id:"+assentoId));
 
-        if(assento.getStatus() == Status.Livre ){
-            assento.setStatus(Status.Ocupado);
+        if(assento.getStatus() == Status.valueOfIgnoreCase("Livre") ){
+            assento.setStatus(Status.valueOfIgnoreCase("Ocupado"));
             assentoRepo.save(assento);
             cliente.setAssento(assento);
             clienteRepo.save(cliente);

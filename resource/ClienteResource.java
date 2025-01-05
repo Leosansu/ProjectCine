@@ -53,7 +53,7 @@ public class ClienteResource {
     public ResponseEntity<Cliente> relacionarAssento(@PathVariable Long clienteId, @PathVariable Long assentoId) {
         Cliente cliente = clienteService.reservaAssento(clienteId, assentoId);
         return ResponseEntity.ok().body(cliente);
-    }//refazer esse método linha por linha, e refazaer o tratamento de exceções
+    }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Cliente> update (@PathVariable Long id,@RequestBody Cliente obj){

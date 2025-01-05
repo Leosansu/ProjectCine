@@ -30,15 +30,15 @@ public class TestConfig implements CommandLineRunner {
         Cliente c1 = new Cliente("Ana");
         Cliente c2 = new Cliente("Biel");
         Cliente c3 = new Cliente("Le");
-        Cliente c4 = new Cliente("Carla");
+        Cliente c4 = new Cliente("Juju");
 
         clienteRepo.saveAll(Arrays.asList(c1, c2, c3,c4));
 
-        Assento a = new Assento(null, "a",Status.Ocupado, c1);
-        Assento b = new Assento(null, "b",Status.Ocupado, c2);
-        Assento c = new Assento(null, "c",Status.Ocupado, c3);
-        Assento d = new Assento(null, "d",Status.Livre);
-        Assento e = new Assento(null, "e",Status.Livre);
+        Assento a = new Assento(null, "a",Status.valueOfIgnoreCase("Ocupado"), c1);
+        Assento b = new Assento(null, "b",Status.valueOfIgnoreCase("OCUpADO"), c2);
+        Assento c = new Assento(null, "c",Status.valueOfIgnoreCase("Ocupado"), c3);
+        Assento d = new Assento(null, "d",Status.valueOfIgnoreCase("Livre"));
+        Assento e = new Assento(null, "e",Status.valueOfIgnoreCase("LIVRE"));
 
         assentoRepo.saveAll(Arrays.asList(a, b, c, d,e));
 
