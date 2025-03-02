@@ -24,15 +24,40 @@ public class ClienteService {
     @Autowired
     AssentoRepo assentoRepo;
 
-    public List<Cliente> findAll(){
+    public List<Cliente> findAll() {
         return clienteRepo.findAll();
     }
-    public Cliente findByid(Long id){
-        Optional <Cliente> obj = clienteRepo.findById(id);
-        return obj.orElseThrow(()->new ResourceNotFoundException(id +" não encontrado") );
+
+    public Cliente findByid(Long id) {
+        Optional<Cliente> obj = clienteRepo.findById(id);
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id + " não encontrado"));
 
     }
-    public Cliente insert(Cliente obj){
+
+
+    //    @Transactional
+//    public Cliente insert(Cliente obj) {
+//        Assento assento = obj.getAssento();
+//        if (assento != null) {
+//            assento = assentoRepo.findById(assento.getId())
+//                    .orElseThrow(() -> new ResourceNotFoundException("Assento não encontrado com id"));
+//            assento.setStatus(Status.OCUPADO);
+//            assentoRepo.save(assento);
+//        }
+//        return clienteRepo.save(obj);
+//    }
+    @Transactional
+    public Cliente insert(Cliente obj) {
+        Assento assento = obj.getAssento();
+        if (assento != null) {
+            assento = assentoRepo.findById(assento.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Assento não encontrado com id: "));
+            if (assento.getStatus() == Status.OCUPADO) {
+                throw new SeatOccupiedException("Assento com id: " + assento.getId() + " está ocupado.");
+            }
+            assento.setStatus(Status.OCUPADO);
+            assentoRepo.save(assento);
+        }
         return clienteRepo.save(obj);
     }
 
@@ -51,14 +76,14 @@ public class ClienteService {
         clienteRepo.delete(cliente); // Deleta o cliente
     }
 
-    public Cliente upDate(Long id , Cliente obj){
-        try{
+    public Cliente upDate(Long id, Cliente obj) {
+        try {
             Cliente clienteEnti = clienteRepo.getReferenceById(id);
-            updateDate(clienteEnti,obj);
+            updateDate(clienteEnti, obj);
             return clienteRepo.save(clienteEnti);
 
-        }catch (EntityNotFoundException e){
-            throw new ResourceNotFoundException("Clente com id: "+id+", não foi econtrado");
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Clente com id: " + id + ", não foi econtrado");
         }
     }
 
@@ -66,19 +91,27 @@ public class ClienteService {
         clienteEnti.setNome(obj.getNome());
         clienteEnti.setAssento(obj.getAssento());
     }
-    public Cliente reservaAssento(Long clienteId,Long assentoId){
-        Cliente cliente = clienteRepo.findById(clienteId).orElseThrow(()->new ResourceNotFoundException("Cliente não encontrado com id: "+clienteId));
-        Assento assento = assentoRepo.findById(assentoId).orElseThrow(()-> new ResourceNotFoundException("Assento não encontrado com id:"+assentoId));
 
-        if(assento.getStatus() == Status.valueOfIgnoreCase("Livre") ){
+    public Cliente reservaAssento(Long clienteId, Long assentoId) {
+        Cliente cliente = clienteRepo.findById(clienteId).orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado com id: " + clienteId));
+        Assento assento = assentoRepo.findById(assentoId).orElseThrow(() -> new ResourceNotFoundException("Assento não encontrado com id:" + assentoId));
+
+        if (assento.getStatus() == Status.valueOfIgnoreCase("Livre")) {
             assento.setStatus(Status.valueOfIgnoreCase("Ocupado"));
             assentoRepo.save(assento);
             cliente.setAssento(assento);
             clienteRepo.save(cliente);
 
-        }else {
-            throw new SeatOccupiedException("Assento com id: "+assentoId+ ", está ocupado.");
+        } else {
+            throw new SeatOccupiedException("Assento com id: " + assentoId + ", está ocupado.");
 
-        }return cliente;
+        }
+        return cliente;
     }
 }
+
+//  "nome": "Zezinho",
+//          "assento": {
+//          "id": 1
+//          }
+//          }

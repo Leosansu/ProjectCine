@@ -2,7 +2,6 @@ package com.example.demo.resource;
 
 import com.example.demo.Entity.Assento;
 import com.example.demo.service.AssentoService;
-import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,12 @@ import java.util.List;
 @RequestMapping(value = "/assentos")
 public class AssentoResource {
 
+    private final AssentoService assentoService;
+
     @Autowired
-    AssentoService assentoService;
+    public AssentoResource(AssentoService assentoService) {
+        this.assentoService = assentoService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Assento>>findAll(){

@@ -27,26 +27,16 @@ public class TestConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        Cliente c1 = new Cliente("Ana");
-        Cliente c2 = new Cliente("Biel");
-        Cliente c3 = new Cliente("Le");
-        Cliente c4 = new Cliente("Juju");
+        Assento a = new Assento(null, "a", Status.valueOfIgnoreCase("Livre"));
+        Assento b = new Assento(null, "b", Status.valueOfIgnoreCase("Livre"));
+        Assento c = new Assento(null, "c", Status.valueOfIgnoreCase("Livre"));
+        Assento d = new Assento(null, "d", Status.valueOfIgnoreCase("Livre"));
+        Assento e = new Assento(null, "e", Status.valueOfIgnoreCase("LIVRE"));
 
-        clienteRepo.saveAll(Arrays.asList(c1, c2, c3,c4));
+        assentoRepo.saveAll(Arrays.asList(a, b, c, d, e));
 
-        Assento a = new Assento(null, "a",Status.valueOfIgnoreCase("Ocupado"), c1);
-        Assento b = new Assento(null, "b",Status.valueOfIgnoreCase("OCUpADO"), c2);
-        Assento c = new Assento(null, "c",Status.valueOfIgnoreCase("Ocupado"), c3);
-        Assento d = new Assento(null, "d",Status.valueOfIgnoreCase("Livre"));
-        Assento e = new Assento(null, "e",Status.valueOfIgnoreCase("LIVRE"));
 
-        assentoRepo.saveAll(Arrays.asList(a, b, c, d,e));
 
-        c1.setAssento(a);
-        c2.setAssento(b);
-        c3.setAssento(c);
-
-        clienteRepo.saveAll(Arrays.asList(c1,c2,c3));
 
     }
 }
