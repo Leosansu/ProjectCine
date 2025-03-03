@@ -4,6 +4,7 @@ import com.example.demo.Entity.Assento;
 import com.example.demo.Entity.Cliente;
 import com.example.demo.Repository.AssentoRepo;
 import com.example.demo.service.exceptions.DatabaseException;
+import com.example.demo.service.exceptions.ExistingSeatException;
 import com.example.demo.service.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,10 @@ public class AssentoService {
                 new ResourceNotFoundException(id+" não encontrado"));
     }
     public Assento insert(Assento obj){
+        if (assentoRepo.findByNome(obj.getNome()).isPresent()) {
+            throw new ExistingSeatException("Assento" + obj.getNome() + " já existe");
+        }
+
         return assentoRepo.save(obj);
     }
     public void delete(Long id){

@@ -11,7 +11,7 @@ public class Assento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "Assento", nullable = false, length = 2)
+    @Column(name = "Assento", nullable = false, length = 2, unique = true)
     private String nome;
 
     @Enumerated(EnumType.STRING)

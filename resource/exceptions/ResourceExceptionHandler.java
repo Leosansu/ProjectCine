@@ -1,6 +1,7 @@
 package com.example.demo.resource.exceptions;
 
 import com.example.demo.service.exceptions.DatabaseException;
+import com.example.demo.service.exceptions.ExistingSeatException;
 import com.example.demo.service.exceptions.ResourceNotFoundException;
 import com.example.demo.service.exceptions.SeatOccupiedException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,6 +36,14 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(SeatOccupiedException.class)
     public ResponseEntity<StandardError> seatOccupied(SeatOccupiedException e, HttpServletRequest request) {
         String error = "Seat Occupied/Assento está ocupado";
+        HttpStatus status = HttpStatus.CONFLICT;
+        StandardError erro = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(erro);
+    }
+    @ExceptionHandler(ExistingSeatException.class)
+    public ResponseEntity<StandardError> existingSeatException(ExistingSeatException e, HttpServletRequest request) {
+        String error = "Seat already exists";
         HttpStatus status = HttpStatus.CONFLICT;
         StandardError erro = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 
