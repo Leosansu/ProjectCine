@@ -50,13 +50,14 @@ public class ClienteService {
     public Cliente insert(Cliente obj) {
         Assento assento = obj.getAssento();
         if (assento != null) {
-            assento = assentoRepo.findById(assento.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Assento não encontrado com id: "));
-            if (assento.getStatus() == Status.OCUPADO) {
-                throw new SeatOccupiedException("Assento com id: " + assento.getId() + " está ocupado.");
+            Assento assentoTemp = assentoRepo.findById(assento.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Assento não encontrado com id: " + assento.getId()));
+            if (assentoTemp.getStatus() == Status.OCUPADO) {
+                throw new SeatOccupiedException("Assento com id: " + assentoTemp.getId() + " ,está ocupado.");
             }
-            assento.setStatus(Status.OCUPADO);
-            assentoRepo.save(assento);
+            assentoTemp.setStatus(Status.OCUPADO);
+            assentoRepo.save(assentoTemp);
+            obj.setAssento(assentoTemp);
         }
         return clienteRepo.save(obj);
     }
