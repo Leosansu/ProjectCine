@@ -1,7 +1,9 @@
 package com.example.demo.resource;
 
 import com.example.demo.Entity.Assento;
+import com.example.demo.dto.AssentoDto;
 import com.example.demo.service.AssentoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,30 +11,37 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/assentos")
 public class AssentoResource {
 
-    private final AssentoService assentoService;
+    @Autowired
+    private AssentoService assentoService;
 
     @Autowired
-    public AssentoResource(AssentoService assentoService) {
-        this.assentoService = assentoService;
-    }
+    private ModelMapper modelMapper ;
+
+
 
     @GetMapping
-    public ResponseEntity<List<Assento>>findAll(){
-        List<Assento>list = assentoService.findAll();
-        return ResponseEntity.ok().body(list);
+    public ResponseEntity<List<AssentoDto>> findAll() {
+        List<AssentoDto> list = assentoService.findAll();
+        List<AssentoDto> dtoList = list.stream()
+                .map(assento -> modelMapper.map(assento, AssentoDto.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(dtoList);
     }
+
     @GetMapping(value = "/{id}")
-    public ResponseEntity <Assento> findById(@PathVariable Long id){
-        Assento obj = assentoService.findByid(id);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<AssentoDto> findById(@PathVariable Long id) {
+        AssentoDto obj = assentoService.findByid(id);
+        AssentoDto dto = modelMapper.map(obj, AssentoDto.class);
+        return ResponseEntity.ok().body(dto);
     }
     @PostMapping
-    public ResponseEntity <Assento> insert (@RequestBody Assento obj){
+    public ResponseEntity <AssentoDto> insert (@RequestBody AssentoDto obj){
         obj = assentoService.insert(obj);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -43,7 +52,7 @@ public class AssentoResource {
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
-        Assento obj = assentoService.findByid(id);
+        AssentoDto obj = assentoService.findByid(id);
         if(obj == null){
             return ResponseEntity.notFound().build();
         }
@@ -51,7 +60,7 @@ public class AssentoResource {
         return ResponseEntity.noContent().build();
     }
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Assento> update (@PathVariable Long id,@RequestBody Assento obj){
+    public ResponseEntity<AssentoDto> update (@PathVariable Long id,@RequestBody AssentoDto obj){
         obj = assentoService.upDate(id,obj);
         return ResponseEntity.ok().body(obj);
 

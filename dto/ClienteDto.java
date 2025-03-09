@@ -1,36 +1,28 @@
-package com.example.demo.Entity;
+package com.example.demo.dto;
+
+import com.example.demo.Entity.Assento;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-@Entity
-public class Cliente implements Serializable {
+
+public class ClienteDto implements Serializable {
     public static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-
-    @Column(nullable = false,length = (35))
     private String nome;
-
-    @OneToOne
-    @JoinColumn(name = "assento_id",unique = true)
     private Assento assento;
 
-    public Cliente() {
+    public ClienteDto() {
     }
 
-
-    public Cliente(Long id, String nome) {
+    public ClienteDto(Long id, String nome) {
         this.id = id;
         this.nome = nome;
 
     }
-
-    public Cliente(String nome) {
+    public ClienteDto(String nome) {
         this.nome = nome;
     }
 
@@ -62,7 +54,7 @@ public class Cliente implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Cliente cliente)) return false;
+        if (!(o instanceof ClienteDto cliente)) return false;
         return Objects.equals(id, cliente.id);
     }
 
